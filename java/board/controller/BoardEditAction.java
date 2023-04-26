@@ -1,12 +1,17 @@
 package board.controller;
 
-import javax.servlet.http.*;
-import common.controller.AbstractAction;
+import java.io.File;
 
-import com.oreilly.servlet.*;
-import com.oreilly.servlet.multipart.*;
-import java.io.*;
-import board.model.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+import board.model.BoardDAO;
+import board.model.BoardVO;
+import common.controller.AbstractAction;
+import user.model.UserVO;
 
 
 public class BoardEditAction extends AbstractAction {
@@ -34,8 +39,10 @@ public class BoardEditAction extends AbstractAction {
 			this.setRedirect(true);
 			return;
 		}
+		UserVO user=this.getLoginUser(req);
+		
 		String content=mr.getParameter("content");
-		String userid="hong";
+		String userid=user.getUserid();
 		String filename=mr.getFilesystemName("filename");
 		long filesize=0;
 		File file=mr.getFile("filename");
